@@ -5,6 +5,9 @@
         <p class="date">
             Published {{ post.publish }} by {{ post.author }}
         </p>
+        {% if post.image %}
+            <img src="{{ post.image.url }}">
+        {% endif %}
     {{ post.body|linebreaks }}
     {% with comments.count as total_comments %}
     <h2>
