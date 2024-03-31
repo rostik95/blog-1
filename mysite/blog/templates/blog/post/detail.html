@@ -9,6 +9,10 @@
             <img src="{{ post.image.url }}">
         {% endif %}
     {{ post.body|linebreaks }}
+    <h3>ТЭГИ:</h3>
+    {% for tag in post.tags.all %}
+        {{ tag.name }}
+    {% endfor %}
     {% with comments.count as total_comments %}
     <h2>
         {{ total_comments }} comment{{ total_comments|pluralize }}

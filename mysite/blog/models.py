@@ -11,7 +11,7 @@ class PublishmentManager(models.Manager):
 
 # Create your models here.
 class Post(models.Model):
-
+    '''Посты'''
     class Status(models.TextChoices):
         DRAFT = 'DF', 'Draft'
         PUBLISHED = 'PB', 'Published'
@@ -25,6 +25,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_post')
+    tags = models.ManyToManyField('Tag', blank=True, related_name='posts')
 
     objects = models.Manager()
     published = PublishmentManager()
@@ -34,6 +35,8 @@ class Post(models.Model):
     indexes = [
         models.Index(fields=['-publish'])
     ]
+    verbose_name = 'Пост'
+    verbose_name_plural = 'Посты'
 
     def __str__(self):
         return self.title
@@ -61,3 +64,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment {self.name} on {self.post}.'
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
